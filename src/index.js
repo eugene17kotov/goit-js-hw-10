@@ -14,6 +14,7 @@ function onInputSearch(e) {
 
   if (countryName === '') {
     countryRef.innerHTML = '';
+    countryRef.classList.add('hidden');
     return;
   }
 
@@ -36,12 +37,16 @@ function renderCountriesMarkup(countries) {
       )
       .join('');
 
+    countryRef.classList.remove('hidden');
+
     countryRef.innerHTML = `<ul class="country-list">${countriesListMarkup}</ul>`;
   }
 
   if (countries.length === 1) {
     const { flags, name, capital, population, languages } = countries[0];
     const langs = Object.values(languages).join(', ');
+
+    countryRef.classList.remove('hidden');
 
     countryRef.innerHTML = `
         <div class="title__wrapper">
