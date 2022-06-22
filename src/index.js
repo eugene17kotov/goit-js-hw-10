@@ -13,8 +13,8 @@ function onInputSearch(e) {
   const countryName = e.target.value.trim();
 
   if (countryName === '') {
-    countryRef.innerHTML = '';
-    countryRef.classList.add('hidden');
+    resetCountryInfo();
+
     return;
   }
 
@@ -23,6 +23,8 @@ function onInputSearch(e) {
 
 function renderCountriesMarkup(countries) {
   if (countries.length > 10) {
+    resetCountryInfo();
+
     Notify.info('Too many matches found. Please enter a more specific name.');
   }
 
@@ -37,7 +39,7 @@ function renderCountriesMarkup(countries) {
       )
       .join('');
 
-    countryRef.classList.remove('hidden');
+    getCountryInfoVisible();
 
     countryRef.innerHTML = `<ul class="country-list">${countriesListMarkup}</ul>`;
   }
@@ -46,7 +48,7 @@ function renderCountriesMarkup(countries) {
     const { flags, name, capital, population, languages } = countries[0];
     const langs = Object.values(languages).join(', ');
 
-    countryRef.classList.remove('hidden');
+    getCountryInfoVisible();
 
     countryRef.innerHTML = `
         <div class="title__wrapper">
@@ -66,5 +68,15 @@ function renderCountriesMarkup(countries) {
 }
 
 function onFetchError(error) {
+  resetCountryInfo();
   Notify.failure('Oops, there is no country with that name');
+}
+
+function resetCountryInfo() {
+  countryRef.classList.add('hidden');
+  countryRef.innerHTML = '';
+}
+
+function getCountryInfoVisible() {
+  countryRef.classList.remove('hidden');
 }
